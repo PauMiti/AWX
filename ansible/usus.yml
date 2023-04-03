@@ -1,0 +1,10 @@
+- name: Crear usuario en la máquina
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Crear usuario
+      ansible.builtin.user:
+        name: autopau
+        comment: John Doe
+        shell: /bin/bash
+        uid: 1050

@@ -1,0 +1,20 @@
+plugin: amazon.aws.aws_ec2
+
+# This sets the region. If empty (the default) default this will include all regions, except possibly
+regions:
+- us-east-1
+keyed_groups:
+  - key: platform_details
+    prefix: platform
+hostnames:
+  - private-ip-address
+  - ip-address
+  - platform_details
+  - instance-state-name
+  - owner-id
+  - client-token
+compose:
+  ip_publica: ip-address
+  ip_privada: private-ip-address
+  nombrestado: instance-state-name
+  detalles: platform_details

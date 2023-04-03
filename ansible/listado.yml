@@ -1,0 +1,23 @@
+- name: Linux Test
+  hosts: all
+  gather_facts: false
+  tasks: 
+    - name: print
+      debug:
+        var: owner_id + client_token + tags.Name + state.name + platform_details + placement.availability_zone + tags.Name+ public_ip_address + private_ip_address
+    - name: Write data to CSV
+      copy:
+        dest: /tmp/output2.csv
+        content: "PLAYBOOK"
+      delegate_to: localhost
+      register: csv_output
+      ignore_errors: true
+    - name: Escribir archivo
+      lineinfile:
+        dest: /tmp/output2.csv
+        line: "{{ owner_id}}, {{ client_token }}, {{ tags.Name | default ('unknown') }}, {{ state.name | default ('unknown')}}, {{ platform_details }}, {{ placement}}, {{ public_dns_name }}, {{ public_ip_address | default ('unknown')}}, {{ private_ip_address }}, {{ tags }}"
+        state: present
+      delegate_to: localhost
+      loop: "{{ groups['all']}}"
+      register: csv_output
+      ignore_errors: true
