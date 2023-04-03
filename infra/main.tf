@@ -29,6 +29,16 @@ resource "aws_subnet" "public_subnets" {
    Name = "Public Subnet ${count.index + 1}"
  }
 }
+resource "aws_subnet" "private_subnets" {
+ count      = length(var.private_subnet_cidrs)
+ vpc_id     = aws_vpc.main.id
+ cidr_block = element(var.private_subnet_cidrs[*], count.index)
+  map_public_ip_on_launch = true
+ availability_zone = element(var.azs, count.index)
+ tags = {
+   Name = "Private Subnet ${count.index + 1}"
+ }
+}
 resource "aws_internet_gateway" "intgw" {
  vpc_id = aws_vpc.main.id
  tags = {
@@ -54,71 +64,40 @@ resource "aws_eip" "one" {
   vpc        = true
   depends_on = [aws_internet_gateway.intgw]
 }
-resource "aws_launch_configuration" "ec2" {
- image_id    = "ami-02f3f602d23f1659d"
-instance_type = "t2.micro"
-user_data = "${file("data.sh")}"
-security_groups = [aws_security_group.publica.id]
-key_name =  aws_key_pair.demo_key_pair.key_name
-
+ resource "aws_instance" "server_1" {
+  subnet_id     = aws_subnet.public_subnets[0].id
+  ami           = "ami-02f3f602d23f1659d"
+	key_name      =  aws_key_pair.generated_key.key_name
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.publica.id]
 }
-resource "aws_autoscaling_group" "bar" {
-  desired_capacity   = 1
-  max_size           = 3
-  min_size           = 1
-  vpc_zone_identifier       = [aws_subnet.public_subnets[0].id]
-  launch_configuration = aws_launch_configuration.ec2.id
-  }
-  resource "aws_launch_configuration" "ec2-1" {
- image_id    = "ami-09b6670f8df6d4e69"
-instance_type = "t2.micro"
-user_data = "${file("data.sh")}"
-security_groups = [aws_security_group.publica.id]
-key_name =  aws_key_pair.demo_key_pair.key_name
+ resource "aws_instance" "server_2" {
+   subnet_id     = aws_subnet.public_subnets[0].id
+  ami           = "ami-09b6670f8df6d4e69"
+	key_name      =  aws_key_pair.generated_key.key_name
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.publica.id]
 }
-resource "aws_autoscaling_group" "bar-1" {
-  desired_capacity   = 1
-  max_size           = 3
-  min_size           = 1
-  vpc_zone_identifier       = [aws_subnet.public_subnets[0].id]
-  launch_configuration = aws_launch_configuration.ec2-1.id
-  }
-  resource "aws_launch_configuration" "ec2-2" {
- image_id    = "ami-0fec2c2e2017f4e7b"
-instance_type = "t2.micro"
-user_data = "${file("data.sh")}"
-security_groups = [aws_security_group.publica.id]
-key_name =  aws_key_pair.demo_key_pair.key_name
+ resource "aws_instance" "server_3" {
+   subnet_id     = aws_subnet.public_subnets[0].id
+  ami           = "ami-0fec2c2e2017f4e7b"
+	key_name      =  aws_key_pair.generated_key.key_name
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.publica.id]
 }
-resource "aws_autoscaling_group" "bar-2" {
-  desired_capacity   = 1
-  max_size           = 3
-  min_size           = 1
-  vpc_zone_identifier       = [aws_subnet.public_subnets[0].id]
-  launch_configuration = aws_launch_configuration.ec2-2.id
-  }
-    resource "aws_launch_configuration" "ec2-3" {
- image_id    = "ami-0c9978668f8d55984"
-instance_type = "t2.micro"
-user_data = "${file("data.sh")}"
-key_name =  aws_key_pair.demo_key_pair.key_name
-security_groups = [aws_security_group.publica.id]
+ resource "aws_instance" "server_4" {
+   subnet_id     = aws_subnet.public_subnets[0].id
+  ami           = "ami-0c9978668f8d55984"
+	key_name      =  aws_key_pair.generated_key.key_name
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.publica.id]
 }
-resource "aws_autoscaling_group" "bar-3" {
-  desired_capacity   = 1
-  max_size           = 3
-  min_size           = 1
-  vpc_zone_identifier       = [aws_subnet.public_subnets[0].id]
-  launch_configuration = aws_launch_configuration.ec2-3.id
-  }
   resource "aws_instance" "jump_server" {
   subnet_id     = aws_subnet.public_subnets[0].id
   ami           = "ami-00c39f71452c08778"
-	 key_name      = tls_private_key.demo_key.private_key_openssh
+	key_name      =  aws_key_pair.generated_key.key_name
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.publica.id]
-  associate_public_ip_address = true
-
   tags = {
     Name = "jump-server"
   }  
