@@ -5,6 +5,6 @@
     - name: Crear usuario
       ansible.builtin.user:
         name: autopau
-        comment: John Doe
+        comment: Usu_ansible
         shell: /bin/bash
         uid: 1050
