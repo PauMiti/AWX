@@ -21,8 +21,5 @@
       delegate_to: localhost
       ignore_errors: true
       run_once: true
-      #register: output
-    - name: print to stdout
-      command: cat /tmp/output2.csv
       register: output
-    - debug: msg="{{ output}}"
+    - debug: msg="{{output}}"
