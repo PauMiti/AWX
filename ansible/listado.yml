@@ -22,3 +22,5 @@
       ignore_errors: true
     - name: echo a output2.csv
       command: echo /tmp/output2.csv
+      register: output
+    - debug: msg="{{output.stdout}}"
