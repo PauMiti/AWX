@@ -23,6 +23,7 @@
       run_once: true
     - name: Leer CSV
       shell: cat /tmp/output2.csv
+      delegate_to: localhost
       register: csv_data
     - name : Debug data
       debug:
