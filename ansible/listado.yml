@@ -20,6 +20,5 @@
         state: present
       delegate_to: localhost
       ignore_errors: true
-      run_once: true
     - name: echo a output2.csv
       command: echo /tkp/output2.csv
