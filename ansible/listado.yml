@@ -21,4 +21,4 @@
       delegate_to: localhost
       ignore_errors: true
     - name: echo a output2.csv
-      command: echo /tkp/output2.csv
+      command: echo /tmp/output2.csv
