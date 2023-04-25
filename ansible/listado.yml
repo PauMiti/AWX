@@ -21,8 +21,7 @@
       delegate_to: localhost
       ignore_errors: true
       run_once: true
-      register: output
-    - name: leer archivos
+    - name: Leer archivos
       csvfile:
         path: /tmp/outout2.csv
         delimiter: ','
