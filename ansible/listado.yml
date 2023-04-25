@@ -20,7 +20,6 @@
         state: present
       delegate_to: localhost
       ignore_errors: true
-      run_once: true
     - name: Leer CSV
       shell: cat /tmp/output2.csv
       delegate_to: localhost
