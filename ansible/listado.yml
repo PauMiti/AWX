@@ -21,3 +21,9 @@
       delegate_to: localhost
       ignore_errors: true
       run_once: true
+    - name: Leer CSV
+      shell: cat /tmp/output2.csv
+      register: csv_data
+    - name : Debug data
+      debug:
+        var: csv_data.stdout_lines
