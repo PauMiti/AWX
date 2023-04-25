@@ -27,4 +27,5 @@
         delimiter: ','
         has_header: true
       register: csv_data
-    - debug: msg="{{csv_data}}"
+    - name: Debug data
+      debug: msg="{{csv_data}}"
