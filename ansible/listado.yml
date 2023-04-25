@@ -21,3 +21,5 @@
       delegate_to: localhost
       ignore_errors: true
       run_once: true
+      register: output
+    - debug: msg="{{ output.stdout }}"
