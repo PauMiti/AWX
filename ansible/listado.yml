@@ -21,10 +21,3 @@
       delegate_to: localhost
       ignore_errors: true
       run_once: true
-      csvfile:
-        path: /tmp/outout2.csv
-        delimiter: ','
-        has_header: true
-      register: csv_data
-    - name: Debug data
-      debug: msg="{{csv_data}}"
