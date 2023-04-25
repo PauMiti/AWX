@@ -4,7 +4,7 @@
   tasks: 
     - name: print
       debug:
-        var: owner_id + client_token + tags.Name + state.name + platform_details + placement.availability_zone + tags.Name+ public_ip_address + private_ip_address
+        var: owner_id | default ('unknown') + client_token | default ('unknown') + tags.Name + state.name + platform_details + placement.availability_zone + tags.Name+ public_ip_address + private_ip_address
     - name: Write data to CSV
       copy:
         dest: /tmp/output2.csv
