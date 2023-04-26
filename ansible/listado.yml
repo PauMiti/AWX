@@ -25,4 +25,6 @@
       delegate_to: localhost
       run_once: true
       register: csv_data
-    - debug: csv_data.stdout
+    - name: Debug
+      debug:
+      var: csv_data.stdout
