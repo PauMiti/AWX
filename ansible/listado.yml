@@ -26,4 +26,4 @@
       register: csv_data
     - name : Debug data
       debug:
-        var: csv_data.stdout_lines
+        var: csv_data
