@@ -28,3 +28,4 @@
     - name: Debug
       debug:
         var: csv_data.stdout
+        run_once: true
