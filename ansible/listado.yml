@@ -27,5 +27,5 @@
       register: csv_data
     - name: Debug
       debug:
-        var: csv_data.stdout
+        var: csv_data
       run_once: true
