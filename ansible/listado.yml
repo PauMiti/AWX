@@ -25,6 +25,3 @@
       delegate_to: localhost
       run_once: true
       register: csv_data
-    - name : Debug data
-      debug:
-        var: csv_data
